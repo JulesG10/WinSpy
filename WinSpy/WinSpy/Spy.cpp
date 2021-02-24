@@ -271,11 +271,7 @@ std::vector<std::string> Spy::ListProcess()
 			}
 		}
 	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-		std::cin.get();
-	}
+	catch (const std::exception& e){}
 	return list;
 }
 
