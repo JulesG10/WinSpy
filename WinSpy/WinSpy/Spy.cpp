@@ -281,16 +281,17 @@ std::vector<std::string> Spy::ListProcess()
 
 std::vector<std::string> Spy::ListAntiVirus()
 {
-	CoInitializeEx(NULL, NULL);
+	std::vector<std::string> list = {};
+	CoInitializeEx(0, 0);
 	CoInitializeSecurity(0, -1, 0, 0, 0, 3, 0, 0, 0);
+
 	IWbemLocator* locator = 0;
 	CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER, IID_IWbemLocator, (void**)&locator);
-	IWbemServices* services = 0;
-	std::vector<std::string> list = {};
 
-	const wchar_t* name = s2ws("root\\SecurityCenter2").c_str();
-	
-	if (locator->ConnectServer(CComBSTR(name).Detach(), 0, 0, 0, 0, 0, 0, &services)) {
+	IWbemServices* services = 0;
+
+
+	if (locator->ConnectServer(::SysAllocString(L"root\\SecurityCenter2"), 0, 0, 0, 0, 0, 0, &services)) {
 		CoSetProxyBlanket(services, 10, 0, 0, 3, 3, 0, 0);
 		const wchar_t* query = s2ws("Select * From AntiVirusProduct").c_str();
 
@@ -317,7 +318,6 @@ std::vector<std::string> Spy::ListAntiVirus()
 	locator->Release();
 	CoUninitialize();
 	_getch();
-
 	return list;
 }
 

